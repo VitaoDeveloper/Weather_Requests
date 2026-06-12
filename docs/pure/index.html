@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta viewport="width=device-width, initial-scale=1.0">
+    <title>Clima Ativo - Monitoramento Realtime</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Importação do FontAwesome para Ícones da Interface -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-
+awesome/6.4.0/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <!-- Seção de entrada de dados e busca -->
+        <div class="search-box">
+            <button class="geo-btn" id="geo-btn" title="Usar localização atual">
+                <i class="fa-solid fa-location-crosshairs"></i>
+            </button>
+            <input type="text" id="search-input" placeholder="Digite uma
+cidade...">
+            <button class="search-btn" id="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+        <!-- Seletor de métricas térmicas -->
+        <div class="unit-toggle">
+            <span class="active" id="unit-c">°C</span>
+            <span>|</span>
+            <span id="unit-f">°F</span>
+        </div>
+        <!-- Alertas informativos do sistema -->
+        <div class="info-msg" id="info-msg"></div>
+        <!-- Painel Climático (Exibição Dinâmica) -->
+        <div class="weather-card" id="weather-card">
+            <h2 id="city-name">-</h2>
+            <img id="weather-icon" src="" alt="Condição Climática">
+            <h1 id="temperature">0°C</h1>
+            <p id="description">-</p>
+
+            Apostila Digital: Desenvolvimento Web Integrado 5
+
+            <!-- Dados Complementares -->
+            <div class="details">
+                <div class="col">
+                    <i class="fa-solid fa-droplet"></i>
+                    <div>
+                        <p id="humidity">0%</p>
+                        <span>Umidade</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <i class="fa-solid fa-wind"></i>
+                    <div>
+                        <p id="wind-speed">0 km/h</p>
+                        <span>Vento</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

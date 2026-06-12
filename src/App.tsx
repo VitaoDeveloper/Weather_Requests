@@ -1,11 +1,55 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
+import { CounterButton } from './components/button' 
+import { current } from './api/weather';
+import axios from 'axios';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const [coords, setCoords] = useState({lat: 0, lon: 0})
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Verifica se o navegador suporta geolocalização
+    if (!navigator.geolocation) {
+      setError('Geolocalização não é suportada pelo seu navegador.');
+      return;
+    }
+
+    const sucesso = (posicao: GeolocationPosition) => {
+      setCoords({
+        lat: posicao.coords.latitude,
+        lon: posicao.coords.longitude,
+      });
+    };
+
+    const falha = (err: GeolocationPositionError) => {
+      setError(`Erro ao obter localização: ${err.message}`);
+    };
+
+    // Executa a busca ao montar o componente
+    navigator.geolocation.getCurrentPosition(sucesso, falha);
+  }, []);
+
+  const fetchCurrent = async () => {
+    setLoading(true)
+    setError('')
+    setData(null)
+
+    try {
+      const data = await current(coords.lat, coords.lon)
+      setData(data)
+    } catch (error) {
+      setError("Erro ao buscar. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <>
@@ -16,18 +60,16 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-          <h1>Get started</h1>
+          <h1>OpenWeather</h1>
           <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
+            Use the buttons below to call the main <code>OpenWeather API</code> endpoints.
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+        {loading ? CounterButton('Current coordenates', fetchCurrent) : CounterButton('Loading...')}
+        {data}
+
+        {loading ? CounterButton('Enter coordenates') : CounterButton('Loading...')}
+        {loading? CounterButton('Enter city name') : CounterButton('Loading...')}
       </section>
 
       <div className="ticks"></div>
