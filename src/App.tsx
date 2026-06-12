@@ -2,53 +2,102 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
-import { CounterButton } from './components/button' 
-import { current } from './api/weather';
-import axios from 'axios';
+import { fetchByCity, fetchByCoords } from './api/weather';
 import './App.css'
+import { Modal } from './components/Modal';
 
 function App() {
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState([false, false, false]);
+  const [modalOpen, setModalOpen] = useState(false);
   const [data, setData] = useState(null);
   const [coords, setCoords] = useState({lat: 0, lon: 0})
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Verifica se o navegador suporta geolocalização
     if (!navigator.geolocation) {
       setError('Geolocalização não é suportada pelo seu navegador.');
       return;
     }
 
-    const sucesso = (posicao: GeolocationPosition) => {
+    const success = (pos: GeolocationPosition) => {
       setCoords({
-        lat: posicao.coords.latitude,
-        lon: posicao.coords.longitude,
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude,
       });
     };
 
-    const falha = (err: GeolocationPositionError) => {
+    const failure = (err: GeolocationPositionError) => {
       setError(`Erro ao obter localização: ${err.message}`);
     };
 
     // Executa a busca ao montar o componente
-    navigator.geolocation.getCurrentPosition(sucesso, falha);
+    navigator.geolocation.getCurrentPosition(success, failure);
   }, []);
 
   const fetchCurrent = async () => {
-    setLoading(true)
+    setLoading([true, false, false])
     setError('')
     setData(null)
 
     try {
-      const data = await current(coords.lat, coords.lon)
+      const data = await fetchByCoords(coords.lat, coords.lon)
+      console.log(data);
+      
       setData(data)
     } catch (error) {
       setError("Erro ao buscar. Tente novamente.");
     } finally {
-      setLoading(false);
+      setLoading([false, false, false]);
+      
+      console.log(data);
+      console.log(error);
+      
     }
+  }
+
+  const fetchByEnterCoords = async () => {
+    setLoading([false, true, false])
+    setError('')
+    setData(null)
+
+    try {
+      const data = await fetchByCoords(coords.lat, coords.lon)
+      console.log(data);
+      
+      setData(data)
+    } catch (error) {
+      setError("Erro ao buscar. Tente novamente.");
+    } finally {
+      setLoading([false, false, false]);
+
+      console.log(data);
+      console.log(error);
+    }
+  }
+
+  const fetchByCityName = async () => {
+    setLoading([false, false, true])
+    setError('')
+    setData(null)
+
+    try {
+      const data = await fetchByCity("Taubaté")
+      console.log(data);
+      
+      setData(data)
+    } catch (error) {
+      setError("Erro ao buscar. Tente novamente.");
+    } finally {
+      setLoading([false, false, false]);
+
+      console.log(data);
+      console.log(error);
+    }
+  }
+
+  const handleManualCoords = (lat: number, lon: number) => {
+    setCoords({ lat, lon })
   }
 
   return (
@@ -65,11 +114,19 @@ function App() {
             Use the buttons below to call the main <code>OpenWeather API</code> endpoints.
           </p>
         </div>
-        {loading ? CounterButton('Current coordenates', fetchCurrent) : CounterButton('Loading...')}
-        {data}
-
-        {loading ? CounterButton('Enter coordenates') : CounterButton('Loading...')}
-        {loading? CounterButton('Enter city name') : CounterButton('Loading...')}
+        {
+          !loading[0] ? <button type="button" className="counter" onClick={fetchCurrent}>Current coordenates</button> 
+                  : <button type='button' className='counter'>Loading...</button>
+        }
+        {
+          !loading[1] ? <button type="button" className="counter" onClick={() => setModalOpen(true)}>Enter coordenates</button> 
+                  : <button type='button' className='counter'>Loading...</button>
+        }
+        {
+          !loading[2] ? <button type="button" className="counter" onClick={fetchByCityName}>Enter city name</button> 
+                  : <button type='button' className='counter'>Loading...</button>
+        }
+        {error}
       </section>
 
       <div className="ticks"></div>
@@ -157,6 +214,14 @@ function App() {
 
       <div className="ticks"></div>
       <section id="spacer"></section>
+
+      <Modal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={handleManualCoords}
+        label1="Latitude"
+        label2="Longitude"
+      />
     </>
   )
 }
