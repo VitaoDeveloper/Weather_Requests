@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { type JSX, useState } from 'react'
 import { FormatInputType } from '../utils/formatInputType'
 
+
 export function Modal({
   open,
   onClose,
