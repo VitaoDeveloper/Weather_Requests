@@ -1,33 +1,52 @@
+import type { ModalProps } from '../types/ModalProps'
 import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
-
-type Props = {
-  open: boolean
-  onClose: () => void
-  onSubmit: (val1: number, val2: number) => void
-  title?: string
-  label1?: string
-  label2?: string
-}
+import { type JSX, useState } from 'react'
+import { FormatInputType } from '../utils/formatInputType'
 
 export function Modal({
   open,
   onClose,
   onSubmit,
-  title = 'Inserir coordenadas',
-  label1 = 'Latitude',
-  label2 = 'Longitude',
-}: Props) {
-  const [val1, setVal1] = useState('')
-  const [val2, setVal2] = useState('')
+  title,
+  inputs,
+}: ModalProps) {
+    
+    const [values, setValues] = useState<Record<string, string>>(
+      () => Object.fromEntries(inputs!.map(i => [i.label, '']))
+    )
 
-  const handleSubmit = () => {
-    onSubmit(Number(val1), Number(val2))
-    setVal1('')
-    setVal2('')
-    onClose()
-  }
+    const modalInputs: JSX.Element[] = []
 
+    if (inputs) {
+
+      const handleChange = (label: string, value: string) => {
+        setValues(prev => ({ ...prev, [label]: value }))
+      }
+
+      for (const input of inputs) {
+        modalInputs.push(
+          <div className="modal-field">
+            <label htmlFor="val1">{input.label}</label>
+              <input
+                id="val1"
+                type={input.type}
+                value={values[input.label]}
+                onChange={e => handleChange(input.label, e.target.value)}
+                placeholder={input.placeholder}/>
+          </div>
+        )
+      }
+    }
+
+    const handleSubmit = () => {
+      if (inputs) {
+        const args = inputs.map(i => FormatInputType.format(i, values))
+        onSubmit(...args)
+        setValues(Object.fromEntries(inputs.map(i => [i.label, ''])))
+        onClose()
+      }
+    }
+  
   return (
     <Dialog.Root open={open} onOpenChange={onClose}>
       <Dialog.Portal>
@@ -39,32 +58,12 @@ export function Modal({
             <Dialog.Close className="modal-close">✕</Dialog.Close>
           </div>
 
-          <div className="modal-field">
-            <label htmlFor="val1">{label1}</label>
-            <input
-              id="val1"
-              type="number"
-              value={val1}
-              onChange={e => setVal1(e.target.value)}
-              placeholder="0"
-            />
-          </div>
-
-          <div className="modal-field">
-            <label htmlFor="val2">{label2}</label>
-            <input
-              id="val2"
-              type="number"
-              value={val2}
-              onChange={e => setVal2(e.target.value)}
-              placeholder="0"
-            />
-          </div>
+          {modalInputs}
 
           <div className="modal-footer">
-            <Dialog.Close className="modal-btn-cancel">Cancelar</Dialog.Close>
+            <Dialog.Close className="modal-btn-cancel">Close</Dialog.Close>
             <button className="modal-btn-confirm" onClick={handleSubmit}>
-              Buscar
+              Submit
             </button>
           </div>
 
