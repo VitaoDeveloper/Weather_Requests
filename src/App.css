@@ -21,24 +21,33 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
-  z-index: 100;          /* sem display: flex aqui */
+  z-index: 100;
+
+  @media (prefers-color-scheme: dark) {
+    background: rgba(0, 0, 0, 0.6);
+  }
 }
 
 .modal {
-  position: fixed;
+  position: fixed;           /* ← obrigatório com Radix */
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-}
+  transform: translate(-50%, -50%);  /* ← centraliza */
+  z-index: 101;              /* ← acima do overlay */
 
-.modal-header {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  width: 420px;
+  max-width: calc(100vw - 40px);
+  box-shadow: var(--shadow);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 20px;
 
-  h2 {
-    font-size: 20px;
-    margin: 0;
+  @media (max-width: 1024px) {
+    padding: 24px 20px;
   }
 }
 
@@ -103,12 +112,27 @@
   }
 }
 
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    margin: 0;
+  }  
+  
+  & > * {
+    margin: 0;                /* ← zera margin do h2 gerado pelo Radix */
+  }
+}
+
 .modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   padding-top: 4px;
   border-top: 1px solid var(--border);
+  margin-top: 8px;   /* ← adiciona isso */
 }
 
 .modal-btn-cancel {
