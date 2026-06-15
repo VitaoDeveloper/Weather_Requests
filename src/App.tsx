@@ -119,9 +119,9 @@ function App() {
           !loadings[2] ? <button type="button" className="counter" onClick={() => setModalsOpen([false, true])}>Enter city name</button> 
                   : <button type='button' className='counter'>Loading...</button>
         }
-
-        {data}
+      {data ? JSON.stringify(data, null, 2) : "Tap a button"}
       </section>
+
 
       <Modal
         open={modalsOpen[0]}
