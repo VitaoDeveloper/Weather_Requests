@@ -16,6 +16,15 @@ function App() {
   const [data, setData] = useState<null | ApiResponse>(null);
   const [error, setError] = useState<null | string>(null);
 
+  const [persistEnabled, setPersistEnabled] = useState(() => {
+    const stored = localStorage.getItem('WEATHER_PERSIST_ENABLED');
+    return stored === null ? true : stored === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('WEATHER_PERSIST_ENABLED', String(persistEnabled));
+  }, [persistEnabled]);
+
   const [coords, setCoords] = useState({lat: 0, lon: 0});
 
   useEffect(() => {
@@ -39,9 +48,10 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (!persistEnabled) return;
     if (data) SendResponse.send('SUCCESS', JSON.stringify(data));
     if (error) SendResponse.send('ERROR', error);
-  }, [data, error])
+  }, [data, error, persistEnabled])
 
   const fetchCurrent = async () => {
     setLoadings([true, false, false])
@@ -118,6 +128,18 @@ function App() {
           !loadings[2] ? <button type="button" className="counter" onClick={() => setModalsOpen([false, true])}>Enter city name</button> 
                   : <button type='button' className='counter'>Loading...</button>
         }
+
+        <label className="toggle">
+          <input
+            type="checkbox"
+            checked={persistEnabled}
+            onChange={e => setPersistEnabled(e.target.checked)}
+          />
+          <span className="toggle-track">
+            <span className="toggle-knob" />
+          </span>
+          <span className="toggle-label">Persist data</span>
+        </label>
 
         {
           !data ? 'Tap a button' :
