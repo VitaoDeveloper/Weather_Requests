@@ -1,6 +1,7 @@
 import type { ModalProps } from '../types/ModalProps'
 import * as Dialog from '@radix-ui/react-dialog'
 import { type JSX, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FormatInputType } from '../utils/formatInputType'
 
 
@@ -11,7 +12,7 @@ export function Modal({
   title,
   inputs,
 }: ModalProps) {
-    
+    const { t } = useTranslation()
     const [values, setValues] = useState<Record<string, string>>(
       () => Object.fromEntries(inputs!.map(i => [i.label, '']))
     )
@@ -62,9 +63,9 @@ export function Modal({
           {modalInputs}
 
           <div className="modal-footer">
-            <Dialog.Close className="modal-btn-cancel">Close</Dialog.Close>
+            <Dialog.Close className="modal-btn-cancel">{t('modal.close')}</Dialog.Close>
             <button className="modal-btn-confirm" onClick={handleSubmit}>
-              Submit
+              {t('modal.submit')}
             </button>
           </div>
 

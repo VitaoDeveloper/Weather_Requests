@@ -6,10 +6,12 @@ import openWeatherLogo from './assets/logo.svg';
 import { DataTable } from './components/DataTable';
 import { capitalize } from '@material-ui/core';
 import { useState, useEffect } from 'react';
+import { useTranslation, Trans } from 'react-i18next';
 import { Modal } from './components/Modal';
 import './App.css';
 
 function App() {
+  const { t, i18n } = useTranslation();
   const [loadings, setLoadings] = useState([false, false, false]);
   const [modalsOpen, setModalsOpen] = useState([false, false]);
 
@@ -29,7 +31,7 @@ function App() {
 
   useEffect(() => {
     if (!navigator.geolocation) {
-      setError('Geolocalização não é suportada pelo seu navegador.');
+      setError(t('errors.geoNotSupported'));
       return;
     }
 
@@ -41,7 +43,7 @@ function App() {
     };
 
     const failure = (err: GeolocationPositionError) => {
-      setError(`Erro ao obter localização: ${err.message}`);
+      setError(t('errors.geoFailed', { message: err.message }));
     };
 
     navigator.geolocation.getCurrentPosition(success, failure);
@@ -113,20 +115,20 @@ function App() {
         <div>
           <h1>OpenWeather</h1>
           <p>
-            Use the buttons below to call the main <code>OpenWeather API</code> endpoints.
+            <Trans i18nKey="app.description" components={{ code: <code /> }} />
           </p>
         </div>
         {
-          !loadings[0] ? <button type="button" className="counter" onClick={fetchCurrent}>Current coordenates</button> 
-                  : <button type='button' className='counter'>Loading...</button>
+          !loadings[0] ? <button type="button" className="counter" onClick={fetchCurrent}>{t('buttons.currentCoords')}</button> 
+                  : <button type='button' className='counter'>{t('app.loading')}</button>
         }
         {
-          !loadings[1] ? <button type="button" className="counter" onClick={() => setModalsOpen([true, false])}>Enter coordenates</button> 
-                  : <button type='button' className='counter'>Loading...</button>
+          !loadings[1] ? <button type="button" className="counter" onClick={() => setModalsOpen([true, false])}>{t('buttons.enterCoords')}</button> 
+                  : <button type='button' className='counter'>{t('app.loading')}</button>
         }
         {
-          !loadings[2] ? <button type="button" className="counter" onClick={() => setModalsOpen([false, true])}>Enter city name</button> 
-                  : <button type='button' className='counter'>Loading...</button>
+          !loadings[2] ? <button type="button" className="counter" onClick={() => setModalsOpen([false, true])}>{t('buttons.enterCity')}</button> 
+                  : <button type='button' className='counter'>{t('app.loading')}</button>
         }
 
         <label className="toggle">
@@ -138,30 +140,45 @@ function App() {
           <span className="toggle-track">
             <span className="toggle-knob" />
           </span>
-          <span className="toggle-label">Persist data</span>
+          <span className="toggle-label">{t('toggle.persistData')}</span>
         </label>
 
+        <div className="lang-bar">
+          <button
+            className={`lang-btn${i18n.language === 'en' ? ' active' : ''}`}
+            onClick={() => i18n.changeLanguage('en')}
+          >
+            {t('lang.en')}
+          </button>
+          <button
+            className={`lang-btn${i18n.language === 'pt' ? ' active' : ''}`}
+            onClick={() => i18n.changeLanguage('pt')}
+          >
+            {t('lang.pt')}
+          </button>
+        </div>
+
         {
-          !data ? 'Tap a button' :
+          !data ? t('app.tapButton') :
           <DataTable rows={[
             {
-              name: 'Temperature',
+              name: t('table.temperature'),
               data: `${data.main.temp} °C`
             },
             {
-              name: 'Feels like',
+              name: t('table.feelsLike'),
               data: `${data.main.feels_like} °C`
             },
             {
-              name: 'Weather',
+              name: t('table.weather'),
               data: `${capitalize(data.weather[0].description)}`
             },
             {
-              name: 'City',
-              data: !data.name ? 'Not found' : `${data.name} - ${data.sys.country}`
+              name: t('table.city'),
+              data: !data.name ? t('app.notFound') : `${data.name} - ${data.sys.country}`
             },
             {
-              name: 'Coordenates',
+              name: t('table.coordenates'),
               data: `${data.coord.lat}, ${data.coord.lon}`
             }
           ]} />
@@ -171,18 +188,18 @@ function App() {
 
       <Modal
         open={modalsOpen[0]}
-        title='Enter coordenates'
+        title={t('modal.enterCoordsTitle')}
         onClose={() => setModalsOpen([false, false])}
         onSubmit={fetchByEnterCoords as ModalProps['onSubmit']}
         inputs={[
           {
-            label: 'Latitude',
-            placeholder: '90',
+            label: t('fields.latitude'),
+            placeholder: t('placeholders.latitude'),
             type: 'number'
           },
           {
-            label: 'Longitude',
-            placeholder: '-90',
+            label: t('fields.longitude'),
+            placeholder: t('placeholders.longitude'),
             type: 'number'
           },
         ]}
@@ -190,13 +207,13 @@ function App() {
 
       <Modal
         open={modalsOpen[1]}
-        title='Enter city name'
+        title={t('modal.enterCityTitle')}
         onClose={() => setModalsOpen([false, false])}
         onSubmit={fetchByCityName as ModalProps['onSubmit']}
         inputs={[
           {
-            label: 'City name',
-            placeholder: 'San Francisco',
+            label: t('fields.cityName'),
+            placeholder: t('placeholders.cityName'),
             type: 'text'
           }
         ]}

@@ -1,0 +1,47 @@
+{
+  "app": {
+    "description": "Use the buttons below to call the main <code>OpenWeather API</code> endpoints.",
+    "loading": "Loading...",
+    "tapButton": "Tap a button",
+    "notFound": "Not found"
+  },
+  "buttons": {
+    "currentCoords": "Current coordenates",
+    "enterCoords": "Enter coordenates",
+    "enterCity": "Enter city name"
+  },
+  "toggle": {
+    "persistData": "Persist data"
+  },
+  "lang": {
+    "en": "EN",
+    "pt": "PT"
+  },
+  "modal": {
+    "close": "Close",
+    "submit": "Submit",
+    "enterCoordsTitle": "Enter coordenates",
+    "enterCityTitle": "Enter city name"
+  },
+  "fields": {
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "cityName": "City name"
+  },
+  "placeholders": {
+    "latitude": "90",
+    "longitude": "-90",
+    "cityName": "San Francisco"
+  },
+  "table": {
+    "temperature": "Temperature",
+    "feelsLike": "Feels like",
+    "weather": "Weather",
+    "city": "City",
+    "coordenates": "Coordenates"
+  },
+  "errors": {
+    "geoNotSupported": "Geolocation is not supported by your browser.",
+    "geoFailed": "Error getting location: {{message}}"
+  }
+}

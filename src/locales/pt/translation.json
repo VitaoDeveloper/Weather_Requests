@@ -1,0 +1,47 @@
+{
+  "app": {
+    "description": "Use os botões abaixo para chamar os endpoints da <code>OpenWeather API</code>.",
+    "loading": "Carregando...",
+    "tapButton": "Clique em um botão",
+    "notFound": "Não encontrada"
+  },
+  "buttons": {
+    "currentCoords": "Coordenadas atuais",
+    "enterCoords": "Inserir coordenadas",
+    "enterCity": "Inserir nome da cidade"
+  },
+  "toggle": {
+    "persistData": "Persistir dados"
+  },
+  "lang": {
+    "en": "EN",
+    "pt": "PT"
+  },
+  "modal": {
+    "close": "Fechar",
+    "submit": "Enviar",
+    "enterCoordsTitle": "Inserir coordenadas",
+    "enterCityTitle": "Inserir nome da cidade"
+  },
+  "fields": {
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "cityName": "Nome da cidade"
+  },
+  "placeholders": {
+    "latitude": "90",
+    "longitude": "-90",
+    "cityName": "São Francisco"
+  },
+  "table": {
+    "temperature": "Temperatura",
+    "feelsLike": "Sensação térmica",
+    "weather": "Clima",
+    "city": "Cidade",
+    "coordenates": "Coordenadas"
+  },
+  "errors": {
+    "geoNotSupported": "Geolocalização não é suportada pelo seu navegador.",
+    "geoFailed": "Erro ao obter localização: {{message}}"
+  }
+}
