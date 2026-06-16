@@ -156,6 +156,12 @@ function App() {
           >
             {t('lang.pt')}
           </button>
+          <button
+            className={`lang-btn${i18n.language === 'ru' ? ' active' : ''}`}
+            onClick={() => i18n.changeLanguage('ru')}
+          >
+            {t('lang.ru')}
+          </button>
         </div>
 
         {

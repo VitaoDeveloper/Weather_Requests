@@ -1,0 +1,48 @@
+{
+  "app": {
+    "description": "Используйте кнопки ниже, чтобы вызвать конечные точки <code>OpenWeather API</code>.",
+    "loading": "Загрузка...",
+    "tapButton": "Нажмите кнопку",
+    "notFound": "Не найдено"
+  },
+  "buttons": {
+    "currentCoords": "Текущие координаты",
+    "enterCoords": "Ввести координаты",
+    "enterCity": "Ввести название города"
+  },
+  "toggle": {
+    "persistData": "Сохранять данные"
+  },
+  "lang": {
+    "en": "EN",
+    "pt": "PT",
+    "ru": "RU"
+  },
+  "modal": {
+    "close": "Закрыть",
+    "submit": "Отправить",
+    "enterCoordsTitle": "Ввести координаты",
+    "enterCityTitle": "Ввести название города"
+  },
+  "fields": {
+    "latitude": "Широта",
+    "longitude": "Долгота",
+    "cityName": "Название города"
+  },
+  "placeholders": {
+    "latitude": "90",
+    "longitude": "-90",
+    "cityName": "Сан-Франциско"
+  },
+  "table": {
+    "temperature": "Температура",
+    "feelsLike": "Ощущается как",
+    "weather": "Погода",
+    "city": "Город",
+    "coordenates": "Координаты"
+  },
+  "errors": {
+    "geoNotSupported": "Геолокация не поддерживается вашим браузером.",
+    "geoFailed": "Ошибка при получении местоположения: {{message}}"
+  }
+}
