@@ -4,14 +4,15 @@ import { useState, useEffect } from 'react'
 import { Modal } from './components/Modal';
 import openWeatherLogo from './assets/logo.svg'
 import './App.css'
+import { SendResponse } from './utils/sendResponse';
 
 function App() {
 
   const [loadings, setLoadings] = useState([false, false, false]);
   const [modalsOpen, setModalsOpen] = useState([false, false]);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<null | {}>(null);
   const [coords, setCoords] = useState({lat: 0, lon: 0})
-  const [error, setError] = useState('');
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -34,64 +35,59 @@ function App() {
     navigator.geolocation.getCurrentPosition(success, failure);
   }, []);
 
+  useEffect(() => {
+    if (data) SendResponse.send('SUCCESS', JSON.stringify(data));
+    if (error) SendResponse.send('ERROR', error);
+  }, [data, error])
+
   const fetchCurrent = async () => {
     setLoadings([true, false, false])
-    setError('')
+    setError(null)
     setData(null)
 
     try {
-      const data = await fetchByCoords(coords.lat, coords.lon)
-      console.log(data);
-      
-      setData(data)
-    } catch (error) {
-      setError("Erro ao buscar. Tente novamente.");
+      const res = await fetchByCoords(coords.lat, coords.lon)
+      setData(res)
+
+    } catch (err) {
+      setError(`${err}`);
+
     } finally {
       setLoadings([false, false, false]);
-      
-      console.log(data);
-      console.log(error);
     }
   }
 
   const fetchByEnterCoords = async (lat: number, lon: number) => {
-    setCoords({lat, lon})
     setLoadings([false, true, false])
-    setError('')
+    setError(null)
     setData(null)
 
     try {
-      const data = await fetchByCoords(lat, lon)
-      console.log(data);
-      
-      setData(data)
-    } catch (error) {
-      setError("Erro ao buscar. Tente novamente.");
+      const res = await fetchByCoords(lat, lon);
+      setData(res)
+
+    } catch (err) {
+      setError(`${err}`);
+
     } finally {
       setLoadings([false, false, false]);
-
-      console.log(data);
-      console.log(error);
     }
   }
 
   const fetchByCityName = async (cityName: string) => {
     setLoadings([false, false, true])
-    setError('')
+    setError(null)
     setData(null)
 
     try {
-      const data = await fetchByCity(cityName)
-      console.log(data);
-      
-      setData(data)
-    } catch (error) {
-      setError("Erro ao buscar. Tente novamente.");
+      const res = await fetchByCity(cityName)
+      setData(res)
+
+    } catch (err) {
+      setError(`${err}`);
+
     } finally {
       setLoadings([false, false, false]);
-
-      console.log(data);
-      console.log(error);
     }
   }
 
