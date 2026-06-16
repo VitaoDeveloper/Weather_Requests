@@ -1,19 +1,22 @@
 import { fetchByCity, fetchByCoords } from './api/weather';
-import type { ModalProps } from './types/ModalProps';
-import { useState, useEffect } from 'react'
-import { Modal } from './components/Modal';
-import openWeatherLogo from './assets/logo.svg'
-import './App.css'
-import { SendResponse } from './utils/sendResponse';
 import type { ApiResponse } from './types/ApiResponse';
+import type { ModalProps } from './types/ModalProps';
+import { SendResponse } from './utils/sendResponse';
+import openWeatherLogo from './assets/logo.svg';
+import { DataTable } from './components/DataTable';
+import { capitalize } from '@material-ui/core';
+import { useState, useEffect } from 'react';
+import { Modal } from './components/Modal';
+import './App.css';
 
 function App() {
-
   const [loadings, setLoadings] = useState([false, false, false]);
   const [modalsOpen, setModalsOpen] = useState([false, false]);
+
   const [data, setData] = useState<null | ApiResponse>(null);
-  const [coords, setCoords] = useState({lat: 0, lon: 0})
   const [error, setError] = useState<null | string>(null);
+
+  const [coords, setCoords] = useState({lat: 0, lon: 0});
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -32,7 +35,6 @@ function App() {
       setError(`Erro ao obter localização: ${err.message}`);
     };
 
-    // Executa a busca ao montar o componente
     navigator.geolocation.getCurrentPosition(success, failure);
   }, []);
 
@@ -116,7 +118,32 @@ function App() {
           !loadings[2] ? <button type="button" className="counter" onClick={() => setModalsOpen([false, true])}>Enter city name</button> 
                   : <button type='button' className='counter'>Loading...</button>
         }
-      {data ? JSON.stringify(data, null, 2) : "Tap a button"}
+
+        {
+          !data ? 'Tap a button' :
+          <DataTable rows={[
+            {
+              name: 'Temperature',
+              data: `${data.main.temp} °C`
+            },
+            {
+              name: 'Feels like',
+              data: `${data.main.feels_like} °C`
+            },
+            {
+              name: 'Weather',
+              data: `${capitalize(data.weather[0].description)}`
+            },
+            {
+              name: 'City',
+              data: !data.name ? 'Not found' : `${data.name} - ${data.sys.country}`
+            },
+            {
+              name: 'Coordenates',
+              data: `${data.coord.lat}, ${data.coord.lon}`
+            }
+          ]} />
+        }
       </section>
 
 
