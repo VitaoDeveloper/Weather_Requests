@@ -5,12 +5,13 @@ import { Modal } from './components/Modal';
 import openWeatherLogo from './assets/logo.svg'
 import './App.css'
 import { SendResponse } from './utils/sendResponse';
+import type { ApiResponse } from './types/ApiResponse';
 
 function App() {
 
   const [loadings, setLoadings] = useState([false, false, false]);
   const [modalsOpen, setModalsOpen] = useState([false, false]);
-  const [data, setData] = useState<null | {}>(null);
+  const [data, setData] = useState<null | ApiResponse>(null);
   const [coords, setCoords] = useState({lat: 0, lon: 0})
   const [error, setError] = useState<null | string>(null);
 
