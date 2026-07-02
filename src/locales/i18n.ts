@@ -5,6 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from './en/translation.json';
 import pt from './pt/translation.json';
 import ru from './ru/translation.json';
+import ja from './ja/translation.json';
 
 i18n
   .use(initReactI18next)
@@ -14,6 +15,7 @@ i18n
       en: { translation: en },
       pt: { translation: pt },
       ru: { translation: ru },
+      ja: { translation: ja }
     },
     fallbackLng: 'pt',
     interpolation: {
