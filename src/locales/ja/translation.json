@@ -1,0 +1,49 @@
+{
+  "app": {
+    "description": "下のボタンを使用して、<code>OpenWeather API</code> のエンドポイントを呼び出します。",
+    "loading": "読み込み中...",
+    "tapButton": "ボタンをクリックしてください",
+    "notFound": "見つかりません"
+  },
+  "buttons": {
+    "currentCoords": "現在の座標",
+    "enterCoords": "座標を入力",
+    "enterCity": "都市名を入力"
+  },
+  "toggle": {
+    "persistData": "データを保存する"
+  },
+  "lang": {
+    "en": "EN",
+    "pt": "PT",
+    "ru": "RU",
+    "ja": "JA"
+  },
+  "modal": {
+    "close": "閉じる",
+    "submit": "送信",
+    "enterCoordsTitle": "座標を入力",
+    "enterCityTitle": "都市名を入力"
+  },
+  "fields": {
+    "latitude": "緯度",
+    "longitude": "経度",
+    "cityName": "都市名"
+  },
+  "placeholders": {
+    "latitude": "90",
+    "longitude": "-90",
+    "cityName": "サンフランシスコ"
+  },
+  "table": {
+    "temperature": "気温",
+    "feelsLike": "体感温度",
+    "weather": "天気",
+    "city": "都市",
+    "coordenates": "座標"
+  },
+  "errors": {
+    "geoNotSupported": "お使いのブラウザは位置情報をサポートしていません。",
+    "geoFailed": "位置情報の取得に失敗しました: {{message}}"
+  }
+}
