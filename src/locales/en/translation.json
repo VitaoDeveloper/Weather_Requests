@@ -13,12 +13,6 @@
   "toggle": {
     "persistData": "Persist data"
   },
-  "lang": {
-    "en": "EN",
-    "pt": "PT",
-    "ru": "RU",
-    "ja": "JA"
-  },
   "modal": {
     "close": "Close",
     "submit": "Submit",
