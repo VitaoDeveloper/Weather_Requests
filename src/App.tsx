@@ -106,6 +106,13 @@ function App() {
     }
   }
 
+  const LANG_LABELS: Record<string, string> = {
+    en: 'EN',
+    pt: 'PT',
+    ru: 'RU',
+    ja: 'JA',
+  };
+
   return (
     <>
       <section id="center">
@@ -148,25 +155,25 @@ function App() {
             className={`lang-btn${i18n.language === 'en' ? ' active' : ''}`}
             onClick={() => i18n.changeLanguage('en')}
           >
-            {t('lang.en')}
+            {LANG_LABELS.en}
           </button>
           <button
             className={`lang-btn${i18n.language === 'pt' ? ' active' : ''}`}
             onClick={() => i18n.changeLanguage('pt')}
           >
-            {t('lang.pt')}
+            {LANG_LABELS.pt}
           </button>
           <button
             className={`lang-btn${i18n.language === 'ru' ? ' active' : ''}`}
             onClick={() => i18n.changeLanguage('ru')}
           >
-            {t('lang.ru')}
+            {LANG_LABELS.ru}
           </button>
           <button
             className={`lang-btn${i18n.language === 'ja' ? ' active' : ''}`}
             onClick={() => i18n.changeLanguage('ja')}
           >
-            {t('lang.ja')}
+            {LANG_LABELS.ja}
           </button>
         </div>
 
