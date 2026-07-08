@@ -13,12 +13,6 @@
   "toggle": {
     "persistData": "Сохранять данные"
   },
-  "lang": {
-    "en": "EN",
-    "pt": "PT",
-    "ru": "RU",
-    "ja": "JA"
-  },
   "modal": {
     "close": "Закрыть",
     "submit": "Отправить",
